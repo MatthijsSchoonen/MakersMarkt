@@ -1,0 +1,6 @@
+@MakersMarkt_HostAddress = http://localhost:5199
+
+GET {{MakersMarkt_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

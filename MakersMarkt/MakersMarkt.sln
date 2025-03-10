@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35825.156 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MakersMarkt", "MakersMarkt\MakersMarkt.csproj", "{3B95BDDC-3325-4166-9515-28618A582D97}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MakersMarktClient", "MakersMarktClient\MakersMarktClient.csproj", "{A794FBF3-789A-4CFF-AD1A-86382B6F92EC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3B95BDDC-3325-4166-9515-28618A582D97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B95BDDC-3325-4166-9515-28618A582D97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B95BDDC-3325-4166-9515-28618A582D97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B95BDDC-3325-4166-9515-28618A582D97}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A794FBF3-789A-4CFF-AD1A-86382B6F92EC}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{A794FBF3-789A-4CFF-AD1A-86382B6F92EC}.Debug|Any CPU.Build.0 = Debug|x64
+		{A794FBF3-789A-4CFF-AD1A-86382B6F92EC}.Debug|Any CPU.Deploy.0 = Debug|x64
+		{A794FBF3-789A-4CFF-AD1A-86382B6F92EC}.Release|Any CPU.ActiveCfg = Release|x64
+		{A794FBF3-789A-4CFF-AD1A-86382B6F92EC}.Release|Any CPU.Build.0 = Release|x64
+		{A794FBF3-789A-4CFF-AD1A-86382B6F92EC}.Release|Any CPU.Deploy.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1D401E31-DE4F-4F16-A628-66153D94B061}
+	EndGlobalSection
+EndGlobal
