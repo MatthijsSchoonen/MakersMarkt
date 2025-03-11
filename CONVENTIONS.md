@@ -9,7 +9,7 @@ All of this projects's conventions are listed in this file. It should provide a 
 Please configure your editor to use tabs instead of spaces. Tabs let everthone use the intentation level that they prefer, instead of having a lot of different indentation levels troughout the project.
 
 ### Use the same colors as seen in the Logo
-Use colors that follow the colorscheme as the MakersMarkt logo, this means beige and light brown colors
+Use colors that follow the colorscheme as the MakersMarkt logo, this means #D8D9CD, #804C21, #CA7A42 and #9F8C78.
 
 ### Use PascalCase for..
 - Classes
