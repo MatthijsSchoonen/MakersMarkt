@@ -141,7 +141,7 @@ namespace MakersMarkt.Controllers
         }
 
         // DELETE api/<ProductController>/5
-        [HttpDelete("{id}")]
+        [HttpDelete("delete")]
         public async Task<ActionResult> Delete(int id)
         {
             using (AppDbContext db = new AppDbContext()) 
