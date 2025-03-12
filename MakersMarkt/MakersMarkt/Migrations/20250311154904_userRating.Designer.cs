@@ -4,6 +4,7 @@ using MakersMarkt.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MakersMarkt.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250311154904_userRating")]
+    partial class userRating
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -241,14 +244,14 @@ namespace MakersMarkt.Migrations
                         {
                             Id = 1,
                             Code = "code1",
-                            CreatedAt = new DateTime(2025, 3, 12, 11, 17, 18, 589, DateTimeKind.Local).AddTicks(2709),
+                            CreatedAt = new DateTime(2025, 3, 11, 16, 49, 4, 506, DateTimeKind.Local).AddTicks(2937),
                             UserId = 1
                         },
                         new
                         {
                             Id = 2,
                             Code = "code2",
-                            CreatedAt = new DateTime(2025, 3, 12, 11, 17, 18, 589, DateTimeKind.Local).AddTicks(2731),
+                            CreatedAt = new DateTime(2025, 3, 11, 16, 49, 4, 506, DateTimeKind.Local).AddTicks(2939),
                             UserId = 2
                         });
                 });
@@ -607,9 +610,6 @@ namespace MakersMarkt.Migrations
                     b.Property<bool>("IsVerified")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<int>("LoginAttempts")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("LoginBlockedAt")
                         .HasColumnType("datetime(6)");
 
@@ -641,8 +641,7 @@ namespace MakersMarkt.Migrations
                             Balance = 100m,
                             Email = "user1@example.com",
                             IsVerified = true,
-                            LoginAttempts = 0,
-                            Password = "$2a$11$gGqrCtyOQbdGfBwVj7Rp1OtB0XHz0yJf2RtAOa5di1mUzN0dx.JAS",
+                            Password = "$2a$11$Y3LnZPIK36z3uRym7mbVtex4ELB8C4645/tFiBOkLOScoWFq1Gk/e",
                             Rating = 4f,
                             RoleId = 1,
                             Username = "user1"
@@ -654,8 +653,7 @@ namespace MakersMarkt.Migrations
                             Balance = 200m,
                             Email = "user2@example.com",
                             IsVerified = false,
-                            LoginAttempts = 0,
-                            Password = "$2a$11$muwxKssX3lqxCgu.H4hvvO0V1snvdVrfF6MQJ4TuyURWvoSAKgHY2",
+                            Password = "$2a$11$UT.tHfq3BZViK9B7LTujg.6miCOf5iQ6eaP/gfv2cG3rtU9OAv0U2",
                             Rating = 0f,
                             RoleId = 2,
                             Username = "user2"

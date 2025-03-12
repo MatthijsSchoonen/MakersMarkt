@@ -39,8 +39,8 @@ namespace MakersMarkt.Database
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>().HasData(
-                new User { Id = 1, Username = "user1", Password = BCrypt.Net.BCrypt.EnhancedHashPassword("123"), Email = "user1@example.com", Balance = 100, RoleId = 1, AllowEmails = true, IsVerified = true },
-                new User { Id = 2, Username = "user2", Password = BCrypt.Net.BCrypt.EnhancedHashPassword("123"), Email = "user2@example.com", Balance = 200, RoleId = 2, AllowEmails = false, IsVerified = false }
+                new User { Id = 1, Username = "user1", Password = BCrypt.Net.BCrypt.EnhancedHashPassword("123"), Email = "user1@example.com", Balance = 100, RoleId = 1, AllowEmails = true, IsVerified = true, LoginAttempts = 0, Rating = 4 },
+                new User { Id = 2, Username = "user2", Password = BCrypt.Net.BCrypt.EnhancedHashPassword("123"), Email = "user2@example.com", Balance = 200, RoleId = 2, AllowEmails = false, IsVerified = false, LoginAttempts = 0, Rating = 0}
             );
 
             modelBuilder.Entity<UserNotification>().HasData(
