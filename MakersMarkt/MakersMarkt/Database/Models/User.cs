@@ -1,4 +1,6 @@
-﻿namespace MakersMarkt.Database.Models
+﻿using Microsoft.Build.ObjectModelRemoting;
+
+namespace MakersMarkt.Database.Models
 {
     public class User
     {
@@ -9,6 +11,7 @@
         public required decimal Balance { get; set; }
         public required bool AllowEmails { get; set; }
         public required bool IsVerified { get; set; }
+        public required int LoginAttempts { get; set; }
         public DateTime? LoginBlockedAt { get; set; }
         public required float Rating { get; set; }
 

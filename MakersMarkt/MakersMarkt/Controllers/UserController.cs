@@ -12,8 +12,23 @@ namespace MakersMarkt.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        [HttpGet("GetUserById")]
-        public async Task<IActionResult> GetUserById(int userId)
+        private static int _maxLoginAttempts = 3;
+
+        [HttpGet("GetAll")]
+        public async Task<IActionResult> GetAll()
+        {
+            using (var db = new AppDbContext())
+            {
+                // Get all users
+                var users = db.Users
+                    .Include(u => u.Role)
+                    .ToList();
+                return Ok(users);
+            }
+        }
+
+        [HttpGet("GetById")]
+        public async Task<IActionResult> GetById(int userId)
         {
             using (var db = new AppDbContext())
             {
@@ -26,6 +41,63 @@ namespace MakersMarkt.Controllers
                 // Check if user exists
                 if (user == null)
                     return NotFound();
+
+                return Ok(user);
+            }
+        }
+
+        [HttpPost("Login")]
+        public async Task<IActionResult> Login(string email, string password)
+        {
+            using (var db = new AppDbContext())
+            {
+                // Get user by email
+                var user = db.Users
+                    .Where(u => u.Email == email)
+                    .FirstOrDefault();
+
+                // Check if user exists
+                if (user == null)
+                    return NotFound(new { message = "User not found." });
+
+                // Check if user is blocked
+                if (user.LoginBlockedAt != null && DateTime.Now <= user.LoginBlockedAt.Value.AddHours(1))
+                    return BadRequest(new { message = "User is blocked from logging in." });
+
+                // Check if password is correct
+                if (!BCrypt.Net.BCrypt.EnhancedVerify(password, user.Password))
+                {
+                    // Increment login attempts
+                    user.LoginAttempts++;
+
+                    // Check if user should be blocked
+                    if (user.LoginAttempts >= _maxLoginAttempts)
+                    {
+                        user.LoginBlockedAt = DateTime.Now;
+                        user.LoginAttempts = 0;
+                    }
+
+                    // Update user
+                    db.Users.Update(user);
+                    await db.SaveChangesAsync();
+
+                    // Check if user has been blocked
+                    if (user.LoginAttempts >= _maxLoginAttempts)
+                    {
+                        // Too many failed login attempts
+                        return BadRequest(new { message = "Too many failed login attempts, user has been blocked." });
+                    }
+
+                    // Incorrect password
+                    return BadRequest(new { message = "Incorrect password" });
+                }
+
+                // Reset login attempts
+                user.LoginAttempts = 0;
+
+                // Update user
+                db.Users.Update(user);
+                await db.SaveChangesAsync();
 
                 return Ok(user);
             }
@@ -55,6 +127,7 @@ namespace MakersMarkt.Controllers
                     AllowEmails = user.AllowEmails,
                     LoginBlockedAt = null,
                     IsVerified = false,
+                    LoginAttempts = 0,
                     Rating = 0
                 });
                 await db.SaveChangesAsync();
