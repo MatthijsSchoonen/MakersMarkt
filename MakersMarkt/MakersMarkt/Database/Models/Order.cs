@@ -5,7 +5,8 @@
         public int Id { get; set; }
 
         public required string Description { get; set; }
-
+        public required int ProductId { get; set; }
+        public Product Product { get; set; }   
         public required int StatusId { get; set; }
         public Status Status { get; set; }
 

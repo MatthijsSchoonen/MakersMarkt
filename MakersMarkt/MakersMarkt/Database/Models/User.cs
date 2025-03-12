@@ -12,7 +12,9 @@
         public Role Role { get; set; }
 
         public required bool AllowEmails { get; set; }
+        public int LoginAttempts { get; set; }
         public DateTime? LoginBlockedAt { get; set; }
+        public float Rating { get; set; }
 
         public required bool IsVerified { get; set; }
     }
