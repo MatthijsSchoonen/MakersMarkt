@@ -11,5 +11,6 @@
         public User Recipient { get; set; }
 
         public int StatusId { get; set; }
+        public ICollection<TradeProduct> TradeProducts { get; set; }
     }
 }
