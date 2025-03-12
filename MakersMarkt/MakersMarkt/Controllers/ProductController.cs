@@ -19,13 +19,13 @@ namespace MakersMarkt.Controllers
         {
             using (AppDbContext db = new AppDbContext())
             {
-                var result = await db.Products
+                var result = await db.Products // Get all the products from the database.
                             .Include(product => product.User)
                                 .ThenInclude(user => user.Role)
                             .Include(product => product.ProductType)
                             .ToListAsync();
 
-                return Ok(result);
+                return Ok(result); // Return the list of products.
             }
         }
 
@@ -36,14 +36,14 @@ namespace MakersMarkt.Controllers
         {
             using (AppDbContext db = new AppDbContext())
             {
-                Product? result = await db.Products
+                Product? result = await db.Products // Get the product with the specified id.
                             .Where(product => product.Id == id)
                             .Include(product => product.User)
                                 .ThenInclude(user => user.Role)
                             .Include(product => product.ProductType)
                             .FirstOrDefaultAsync();
 
-                if (result == null)
+                if (result == null) // If the product that is being searched for, does not exist, return a 404.
                 {
                     return NotFound();
                 }
@@ -59,27 +59,27 @@ namespace MakersMarkt.Controllers
         [HttpPost]
         public async Task<ActionResult<Product>> CreateProduct(string name, string description, int productTypeId, int userId, decimal price, bool isFlagged, int reports)
         {
-            if (name == null || description == null)
+            if (name == null || description == null) // If the name or description is null, return a 400.
             {
                 return BadRequest("Invalid Input");
             }
 
             using (AppDbContext db = new AppDbContext())
             {
-                User? user = await db.Users.FindAsync(userId);
-                if (user == null)
+                User? user = await db.Users.FindAsync(userId); // Find the user with the specified id.
+                if (user == null) // If the user does not exist, return a 400.
                 {
                     return BadRequest("User does not exist");
                 }
 
-                ProductType? productType = await db.ProductTypes.FindAsync(productTypeId);
-                if (productType == null)
+                ProductType? productType = await db.ProductTypes.FindAsync(productTypeId); // Find the product type with the specified id.
+                if (productType == null) // If the product type does not exist, return a 400.
                 {
                     return BadRequest("Product Type does not exist");
                 }
 
 
-                Product product = new Product
+                Product product = new Product // Create a new product with the specified parameters.
                 {
                     Name = name,
                     Description = description,
@@ -89,10 +89,10 @@ namespace MakersMarkt.Controllers
                     IsFlagged = isFlagged,
                     Reports = reports
                 };
-                db.Products.Add(product);
-                await db.SaveChangesAsync();
+                db.Products.Add(product); // Add the product to the database.
+                await db.SaveChangesAsync(); // Save the changes to the database.
 
-                return Ok(product);
+                return Ok(product); // Return the product that was created.
             }
         }
 
@@ -100,42 +100,42 @@ namespace MakersMarkt.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<Product>> EditProduct(int id, string name, string description, int productTypeId, int userId, decimal price, bool isFlagged, int reports)
         {
-            if (name == null || description == null)
+            if (name == null || description == null) // If the name or description is null, return a 400.
             {
                 return BadRequest("Invalid Input");
             }
 
             Product? product;
-            using (AppDbContext db = new AppDbContext())
+            using (AppDbContext db = new AppDbContext()) // Find the product with the specified id.
             {
                 product = db.Products.Find(id);
-                if (product == null)
+                if (product == null) // If the product does not exist, return a 400.
                 {
                     return BadRequest("Product does not exist");
                 }
 
-                User? user = await db.Users.FindAsync(userId);
-                if (user == null)
+                User? user = await db.Users.FindAsync(userId); // Find the user with the specified id.
+                if (user == null) // If the user does not exist, return a 400.
                 {
                     return BadRequest("User does not exist");
                 }
 
-                ProductType? productType = await db.ProductTypes.FindAsync(productTypeId);
-                if (productType == null)
+                ProductType? productType = await db.ProductTypes.FindAsync(productTypeId); // Find the product type with the specified id.
+                if (productType == null) // If the product type does not exist, return a 400.
                 {
                     return BadRequest("Product Type does not exist");
                 }
-
+                // Update the product with the new parameters.
                 product.Name = name;
                 product.Description = description;
                 product.ProductTypeId = productType.Id;
                 product.UserId = userId;
                 product.IsFlagged = isFlagged;
                 product.Reports = reports;
-                db.UpdateRange(product);
-                await db.SaveChangesAsync();
+                db.UpdateRange(product); // Update the product in the database.
+                await db.SaveChangesAsync(); // Save the changes to the database.
 
-                return Ok(product);
+                return Ok(product); // Return the updated product.
 
             }
         }
@@ -144,16 +144,17 @@ namespace MakersMarkt.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
-            using (AppDbContext db = new AppDbContext())
+            using (AppDbContext db = new AppDbContext()) 
             {
+                // Find the product with the specified id.
                 Product? product = await db.Products.FindAsync(id);
                 if (product == null)
                 {
                     return BadRequest("Product not found");
                 }
-                db.RemoveRange(product);
+                db.RemoveRange(product); // Remove the product from the database.
                 await db.SaveChangesAsync();
-                return Ok();
+                return Ok(); // Return a 200.
             }
         }
 
@@ -162,13 +163,16 @@ namespace MakersMarkt.Controllers
         {
             using (AppDbContext db = new AppDbContext())
             {
+                // Find the product with the specified id.
                 Product? product = await db.Products.FindAsync(id);
                 if (product == null)
                 {
                     return BadRequest("Product not found");
                 }
+                // Increment the reports of the product.
                 product.Reports++;
                 db.UpdateRange(product);
+                // Save the changes to the database and return a 200.
                 await db.SaveChangesAsync();
                 return Ok(product);
             }
