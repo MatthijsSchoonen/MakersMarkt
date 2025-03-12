@@ -15,14 +15,14 @@ namespace MakersMarkt.Controllers
         {
             if (id == 0)
             {
-                return NotFound(404);
+                return NotFound();
             }
             using (var db = new AppDbContext())
             {
                 var user = db.Users.Find(id);
                 if (user == null)
                 {
-                    return NotFound(404);
+                    return NotFound();
                 }
                 user.IsVerified = true;
                 db.SaveChanges();
@@ -101,7 +101,6 @@ namespace MakersMarkt.Controllers
                     {
                         pt.ProductType.Id,
                         pt.ProductType.Name,
-                        pt.ProductCount
                     })
                     .ToList();
 
