@@ -15,14 +15,17 @@ namespace MakersMarkt.Controllers
         [HttpGet]
         public IEnumerable<Trade> Get()
         {
-            using (AppDbContext db = new())
+            using (var db = new AppDbContext())
             {
-                var t = db.Trades
+                var trades = db.Trades
                     .Include(t => t.TradeProducts)
-                    .ThenInclude(tp => tp.Product);
-                return db.Trades.ToList();  
+                        .ThenInclude(tp => tp.Product)
+                    .ToList();
+
+                return trades;
             }
         }
+
 
         // GET api/<TradeController>/5
         [HttpGet("GetByID")]

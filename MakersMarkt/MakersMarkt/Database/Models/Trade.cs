@@ -1,4 +1,6 @@
-﻿namespace MakersMarkt.Database.Models
+﻿using System.Text.Json.Serialization;
+
+namespace MakersMarkt.Database.Models
 {
     public class Trade
     {
@@ -11,6 +13,7 @@
         public User Recipient { get; set; }
 
         public int StatusId { get; set; }
+        [JsonIgnore]
         public ICollection<TradeProduct> TradeProducts { get; set; }
     }
 }
