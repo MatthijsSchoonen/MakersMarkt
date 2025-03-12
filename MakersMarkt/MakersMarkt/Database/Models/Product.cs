@@ -16,6 +16,6 @@
         public required bool IsFlagged { get; set; }
 
         public int Reports { get; set; }
-        public string Image { get; set; }
+        public string? Image { get; set; }
     }
 }
