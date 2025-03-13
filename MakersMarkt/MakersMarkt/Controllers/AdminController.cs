@@ -107,40 +107,5 @@ namespace MakersMarkt.Controllers
                 return Ok(popularTypes);
             }
         }
-
-        //GET: api/<AdminController/GetPopularProducts>
-        [HttpGet("GetPopularProducts")]
-        public IActionResult GetPopularProducts()
-        {
-            using (var db = new AppDbContext())
-            {
-                var popularProducts = db.TradeProducts
-                    .GroupBy(tp => tp.Product)
-                    .Select(g => new
-                    {
-                        Product = g.Key,
-                        TradeCount = g.Count()
-                    })
-                    .OrderByDescending(p => p.TradeCount)
-                    .Select(p => new ProductDTO
-                    {
-                        Id = p.Product.Id,
-                        Name = p.Product.Name,
-                        Description = p.Product.Description,
-                        ProductTypeId = p.Product.ProductTypeId,
-                        ProductTypeName = p.Product.ProductType.Name,
-                        UserId = p.Product.UserId,
-                        UserName = p.Product.User.Username,
-                        Price = p.Product.Price,
-                        IsFlagged = p.Product.IsFlagged,
-                        Reports = p.Product.Reports
-                    })
-                    .ToList();
-
-                return Ok(popularProducts);
-            }
-        }
-
-
     }
 }

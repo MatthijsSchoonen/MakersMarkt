@@ -1,6 +1,4 @@
-﻿using Microsoft.Build.ObjectModelRemoting;
-
-namespace MakersMarkt.Database.Models
+﻿namespace MakersMarkt.Database.Models
 {
     public class User
     {
