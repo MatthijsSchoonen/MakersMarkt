@@ -16,11 +16,7 @@ namespace MakersMarkt.Database
         public DbSet<Role> Roles { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<PasswordReset> PasswordResets { get; set; }
-        public DbSet<UserProduct> UserProducts { get; set; }
-        public DbSet<Trade> Trades { get; set; }
         public DbSet<Status> Statuses { get; set; }
-        public DbSet<TradeProduct> TradeProducts { get; set; }
-        public DbSet<OrderProduct> OrderProducts { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<ProductProperty> ProductProperties { get; set; }
 
@@ -39,8 +35,8 @@ namespace MakersMarkt.Database
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>().HasData(
-                new User { Id = 1, Username = "user1", Password = BCrypt.Net.BCrypt.EnhancedHashPassword("123"), Email = "user1@example.com", Balance = 100, RoleId = 1, AllowEmails = true, IsVerified = true },
-                new User { Id = 2, Username = "user2", Password = BCrypt.Net.BCrypt.EnhancedHashPassword("123"), Email = "user2@example.com", Balance = 200, RoleId = 2, AllowEmails = false, IsVerified = false }
+                new User { Id = 1, Username = "user1", Password = BCrypt.Net.BCrypt.EnhancedHashPassword("123"), Email = "user1@example.com", Balance = 100, RoleId = 1, AllowEmails = true, IsVerified = true, LoginAttempts = 0, Rating = 4 },
+                new User { Id = 2, Username = "user2", Password = BCrypt.Net.BCrypt.EnhancedHashPassword("123"), Email = "user2@example.com", Balance = 200, RoleId = 2, AllowEmails = false, IsVerified = false, LoginAttempts = 0, Rating = 0}
             );
 
             modelBuilder.Entity<UserNotification>().HasData(
@@ -88,35 +84,15 @@ namespace MakersMarkt.Database
                 new PasswordReset { Id = 2, UserId = 2, Code = "code2", CreatedAt = DateTime.Now }
             );
 
-            modelBuilder.Entity<UserProduct>().HasData(
-                new UserProduct { Id = 1, UserId = 1, ProductId = 1 },
-                new UserProduct { Id = 2, UserId = 2, ProductId = 2 }
-            );
-
-            modelBuilder.Entity<Trade>().HasData(
-                new Trade { Id = 1, SenderId = 1, RecipientId = 2, StatusId = 1 },
-                new Trade { Id = 2, SenderId = 2, RecipientId = 1, StatusId = 2 }
-            );
-
             modelBuilder.Entity<Status>().HasData(
                 new Status { Id = 1, Name = "In Production" },
                 new Status { Id = 2, Name = "Sent" },
                 new Status { Id = 3, Name = "Declined, refund sent." }
             );
-
-            modelBuilder.Entity<TradeProduct>().HasData(
-                new TradeProduct { Id = 1, ProductId = 1, TradeId = 1 },
-                new TradeProduct { Id = 2, ProductId = 2, TradeId = 2 }
-            );
-
-            modelBuilder.Entity<OrderProduct>().HasData(
-                new OrderProduct { Id = 1, OrderId = 1, ProductId = 1 },
-                new OrderProduct { Id = 2, OrderId = 2, ProductId = 2 }
-            );
-
+           
             modelBuilder.Entity<Order>().HasData(
-                new Order { Id = 1, Description = "Order1", StatusId = 1, BuyerId = 1, SellerId = 2 },
-                new Order { Id = 2, Description = "Order2", StatusId = 2, BuyerId = 2, SellerId = 1 }
+                new Order { Id = 1, Description = "Order1", ProductId = 1, StatusId = 1, BuyerId = 1, SellerId = 2 },
+                new Order { Id = 2, Description = "Order2", ProductId = 2, StatusId = 2, BuyerId = 2, SellerId = 1 }
             );
 
             modelBuilder.Entity<ProductProperty>().HasData(

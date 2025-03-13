@@ -4,6 +4,7 @@ using MakersMarkt.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MakersMarkt.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250312101719_UserLoginAttempts")]
+    partial class UserLoginAttempts
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -140,9 +143,6 @@ namespace MakersMarkt.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
                     b.Property<int>("SellerId")
                         .HasColumnType("int");
 
@@ -152,8 +152,6 @@ namespace MakersMarkt.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("BuyerId");
-
-                    b.HasIndex("ProductId");
 
                     b.HasIndex("SellerId");
 
@@ -167,7 +165,6 @@ namespace MakersMarkt.Migrations
                             Id = 1,
                             BuyerId = 1,
                             Description = "Order1",
-                            ProductId = 1,
                             SellerId = 2,
                             StatusId = 1
                         },
@@ -176,9 +173,45 @@ namespace MakersMarkt.Migrations
                             Id = 2,
                             BuyerId = 2,
                             Description = "Order2",
-                            ProductId = 2,
                             SellerId = 1,
                             StatusId = 2
+                        });
+                });
+
+            modelBuilder.Entity("MakersMarkt.Database.Models.OrderProduct", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("OrderProducts");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            OrderId = 1,
+                            ProductId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            OrderId = 2,
+                            ProductId = 2
                         });
                 });
 
@@ -211,14 +244,14 @@ namespace MakersMarkt.Migrations
                         {
                             Id = 1,
                             Code = "code1",
-                            CreatedAt = new DateTime(2025, 3, 12, 15, 8, 4, 892, DateTimeKind.Local).AddTicks(3824),
+                            CreatedAt = new DateTime(2025, 3, 12, 11, 17, 18, 589, DateTimeKind.Local).AddTicks(2709),
                             UserId = 1
                         },
                         new
                         {
                             Id = 2,
                             Code = "code2",
-                            CreatedAt = new DateTime(2025, 3, 12, 15, 8, 4, 892, DateTimeKind.Local).AddTicks(3826),
+                            CreatedAt = new DateTime(2025, 3, 12, 11, 17, 18, 589, DateTimeKind.Local).AddTicks(2731),
                             UserId = 2
                         });
                 });
@@ -233,9 +266,6 @@ namespace MakersMarkt.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Image")
                         .HasColumnType("longtext");
 
                     b.Property<bool>("IsFlagged")
@@ -480,6 +510,85 @@ namespace MakersMarkt.Migrations
                         });
                 });
 
+            modelBuilder.Entity("MakersMarkt.Database.Models.Trade", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("RecipientId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SenderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StatusId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RecipientId");
+
+                    b.HasIndex("SenderId");
+
+                    b.ToTable("Trades");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            RecipientId = 2,
+                            SenderId = 1,
+                            StatusId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            RecipientId = 1,
+                            SenderId = 2,
+                            StatusId = 2
+                        });
+                });
+
+            modelBuilder.Entity("MakersMarkt.Database.Models.TradeProduct", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TradeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("TradeId");
+
+                    b.ToTable("TradeProducts");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ProductId = 1,
+                            TradeId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ProductId = 2,
+                            TradeId = 2
+                        });
+                });
+
             modelBuilder.Entity("MakersMarkt.Database.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -536,7 +645,7 @@ namespace MakersMarkt.Migrations
                             Email = "user1@example.com",
                             IsVerified = true,
                             LoginAttempts = 0,
-                            Password = "$2a$11$0NvsddiOgIbDKoeK1uCe2OCnE7euN.pqqOXG3LTQrdG2KIO9Aimdi",
+                            Password = "$2a$11$gGqrCtyOQbdGfBwVj7Rp1OtB0XHz0yJf2RtAOa5di1mUzN0dx.JAS",
                             Rating = 4f,
                             RoleId = 1,
                             Username = "user1"
@@ -549,7 +658,7 @@ namespace MakersMarkt.Migrations
                             Email = "user2@example.com",
                             IsVerified = false,
                             LoginAttempts = 0,
-                            Password = "$2a$11$hxJsPh2ve.aM6gx/FBPT/e/JQd7DIfE72I4epj0YNvsMnp5.p2bYy",
+                            Password = "$2a$11$muwxKssX3lqxCgu.H4hvvO0V1snvdVrfF6MQJ4TuyURWvoSAKgHY2",
                             Rating = 0f,
                             RoleId = 2,
                             Username = "user2"
@@ -598,17 +707,48 @@ namespace MakersMarkt.Migrations
                         });
                 });
 
+            modelBuilder.Entity("MakersMarkt.Database.Models.UserProduct", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserProducts");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ProductId = 1,
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ProductId = 2,
+                            UserId = 2
+                        });
+                });
+
             modelBuilder.Entity("MakersMarkt.Database.Models.Order", b =>
                 {
                     b.HasOne("MakersMarkt.Database.Models.User", "Buyer")
                         .WithMany()
                         .HasForeignKey("BuyerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MakersMarkt.Database.Models.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -626,11 +766,28 @@ namespace MakersMarkt.Migrations
 
                     b.Navigation("Buyer");
 
-                    b.Navigation("Product");
-
                     b.Navigation("Seller");
 
                     b.Navigation("Status");
+                });
+
+            modelBuilder.Entity("MakersMarkt.Database.Models.OrderProduct", b =>
+                {
+                    b.HasOne("MakersMarkt.Database.Models.Order", "Order")
+                        .WithMany()
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MakersMarkt.Database.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("MakersMarkt.Database.Models.PasswordReset", b =>
@@ -709,6 +866,44 @@ namespace MakersMarkt.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("MakersMarkt.Database.Models.Trade", b =>
+                {
+                    b.HasOne("MakersMarkt.Database.Models.User", "Recipient")
+                        .WithMany()
+                        .HasForeignKey("RecipientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MakersMarkt.Database.Models.User", "Sender")
+                        .WithMany()
+                        .HasForeignKey("SenderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Recipient");
+
+                    b.Navigation("Sender");
+                });
+
+            modelBuilder.Entity("MakersMarkt.Database.Models.TradeProduct", b =>
+                {
+                    b.HasOne("MakersMarkt.Database.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MakersMarkt.Database.Models.Trade", "Trade")
+                        .WithMany()
+                        .HasForeignKey("TradeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("Trade");
+                });
+
             modelBuilder.Entity("MakersMarkt.Database.Models.User", b =>
                 {
                     b.HasOne("MakersMarkt.Database.Models.Role", "Role")
@@ -727,6 +922,25 @@ namespace MakersMarkt.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("MakersMarkt.Database.Models.UserProduct", b =>
+                {
+                    b.HasOne("MakersMarkt.Database.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MakersMarkt.Database.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
 
                     b.Navigation("User");
                 });
